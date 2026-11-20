@@ -220,6 +220,33 @@ std::string Boss::chooseAttackName() const {
 }
 
 // =====================================================
+// Dark & Crimson Color Palette
+// =====================================================
+
+namespace Theme {
+    const sf::Color WindowBg       (14, 3, 4);      // Near-black abyssal red
+    const sf::Color PanelBg        (26, 5, 7);      // Dark crimson panel fill
+    const sf::Color SubPanelBg     (20, 4, 5);      // Darker inset panels (Boss / Log)
+    const sf::Color CardBg         (34, 7, 9);      // Unselected hero card
+    const sf::Color CardSelectedBg (58, 12, 15);    // Selected hero card
+
+    const sf::Color BorderRed      (190, 28, 28);   // Primary scarlet borders
+    const sf::Color BorderDim      (135, 22, 22);   // Subtle button/panel borders
+    const sf::Color BorderGold     (255, 200, 40);  // Active turn highlight
+    const sf::Color DeadMuted      (65, 28, 28);    // Defeated hero/boss tint
+
+    const sf::Color TitleRed       (225, 45, 45);   // Main title & boss name
+    const sf::Color TextLight      (242, 225, 225); // High-contrast off-white text
+    const sf::Color TextSub        (215, 135, 135); // Muted rose-red labels/subtitles
+
+    const sf::Color HpBarBg        (55, 12, 12);    // Empty health bar track
+    const sf::Color HpBarFill      (220, 24, 24);   // Bright blood-red health fill
+
+    const sf::Color ButtonFill     (48, 9, 11);     // Dark crimson button fill
+    const sf::Color ButtonOutline  (185, 30, 30);   // Scarlet button border
+}
+
+// =====================================================
 // Button
 // =====================================================
 
@@ -227,13 +254,13 @@ Button::Button(const sf::Font& font, const std::string& text, const std::string&
                sf::Vector2f position, sf::Vector2f size)
     : shape(size), label(font), action(actionName) {
     shape.setPosition(position);
-    shape.setFillColor(sf::Color(180, 60, 120));
+    shape.setFillColor(Theme::ButtonFill);
     shape.setOutlineThickness(2.f);
-    shape.setOutlineColor(sf::Color(255, 180, 210));
+    shape.setOutlineColor(Theme::ButtonOutline);
 
     label.setString(text);
     label.setCharacterSize(20);
-    label.setFillColor(sf::Color(255, 240, 245));
+    label.setFillColor(Theme::TextLight);
 
     sf::FloatRect bounds = label.getLocalBounds();
     label.setPosition({
@@ -570,7 +597,7 @@ void Game::addLog(const std::string& line) {
 }
 
 void Game::draw() {
-    window.clear(sf::Color(40, 10, 30));
+    window.clear(Theme::WindowBg);
     drawBackground();
     drawPlayers();
     drawBoss();
@@ -584,76 +611,78 @@ void Game::draw() {
 void Game::drawBackground() {
     sf::RectangleShape panel({1140.f, 700.f});
     panel.setPosition({30.f, 30.f});
-    panel.setFillColor(sf::Color(60, 15, 45));
-    panel.setOutlineColor(sf::Color(255, 105, 180));
+    panel.setFillColor(Theme::PanelBg);
+    panel.setOutlineColor(Theme::BorderRed);
     panel.setOutlineThickness(3.f);
     window.draw(panel);
 }
 
 void Game::drawTitle() {
-    drawCenteredText("Queen of the Abyss", 34, {600.f, 60.f}, sf::Color(255, 182, 213));
+    drawCenteredText("Queen of the Abyss", 34, {600.f, 60.f}, Theme::TitleRed);
 
     if (gameOver) {
         if (playerWon) {
-            drawCenteredText("VICTORY!", 28, {600.f, 95.f}, sf::Color(255, 215, 0));
+            drawCenteredText("VICTORY!", 28, {600.f, 95.f}, Theme::BorderGold);
         } else {
-            drawCenteredText("Her victory. Your extinction.", 28, {600.f, 95.f}, sf::Color(255, 3, 50));
+            drawCenteredText("Her victory. Your extinction.", 28, {600.f, 95.f}, sf::Color(255, 30, 30));
         }
     } else {
-        drawCenteredText("Turn: " + players[currentPlayerIndex]->getName(), 22, {600.f, 95.f}, sf::Color(255, 200, 220));
+        drawCenteredText("Turn: " + players[currentPlayerIndex]->getName(), 22, {600.f, 95.f}, Theme::TextLight);
     }
 }
 
 void Game::drawPlayers() {
+    // Distinct dark-red / burgundy shades for Warrior, Mage, and Healer
     const std::vector<sf::Color> colors = {
-        sf::Color(255, 105, 150),
-        sf::Color(200, 100, 255),
-        sf::Color(255, 160, 200)
+        sf::Color(195, 30, 30),  // Warrior: Scarlet
+        sf::Color(115, 25, 55),  // Mage: Deep Burgundy
+        sf::Color(155, 22, 38)   // Healer: Ruby Crimson
     };
 
     for (std::size_t i = 0; i < players.size(); ++i) {
-        // Change 30.f to 60.f to shift cards right
         const float x = 60.f + i * 180.f;
         const float y = 120.f;
-                                //changed y to 250 from 220
+
         sf::RectangleShape card({160.f, 250.f});
         card.setPosition({x, y});
-        card.setFillColor(i == static_cast<std::size_t>(selectedPlayerIndex) ? sf::Color(100, 30, 70) : sf::Color(70, 20, 55));
+        card.setFillColor(i == static_cast<std::size_t>(selectedPlayerIndex)
+                              ? Theme::CardSelectedBg
+                              : Theme::CardBg);
 
         if (i == static_cast<std::size_t>(currentPlayerIndex) && players[i]->isAlive()) {
             card.setOutlineThickness(3.f);
-            card.setOutlineColor(sf::Color(255, 215, 0));
+            card.setOutlineColor(Theme::BorderGold);
         } else {
             card.setOutlineThickness(2.f);
-            card.setOutlineColor(players[i]->isAlive() ? sf::Color(255, 105, 180) : sf::Color(120, 80, 100));
+            card.setOutlineColor(players[i]->isAlive() ? Theme::BorderRed : Theme::DeadMuted);
         }
         window.draw(card);
 
         sf::CircleShape avatar(34.f);
         avatar.setPosition({x + 46.f, y + 18.f});
-        avatar.setFillColor(players[i]->isAlive() ? colors[i] : sf::Color(90, 60, 80));
+        avatar.setFillColor(players[i]->isAlive() ? colors[i] : Theme::DeadMuted);
         window.draw(avatar);
 
         sf::RectangleShape hpBarBg({120.f, 14.f});
         hpBarBg.setPosition({x + 20.f, y + 125.f});
-        hpBarBg.setFillColor(sf::Color(80, 40, 60));
+        hpBarBg.setFillColor(Theme::HpBarBg);
         window.draw(hpBarBg);
 
         const float hpRatio = static_cast<float>(players[i]->getHealth()) / players[i]->getMaxHealth();
         sf::RectangleShape hpBar({120.f * hpRatio, 14.f});
         hpBar.setPosition({x + 20.f, y + 125.f});
-        hpBar.setFillColor(sf::Color(255, 105, 180));
+        hpBar.setFillColor(Theme::HpBarFill);
         window.draw(hpBar);
 
         sf::Text text(font);
         text.setCharacterSize(18);
-        text.setFillColor(sf::Color(255, 230, 240));
+        text.setFillColor(Theme::TextLight);
         text.setString(players[i]->getName());
         text.setPosition({x + 20.f, y + 160.f});
         window.draw(text);
 
         text.setCharacterSize(15);
-        text.setFillColor(sf::Color(255, 180, 210));
+        text.setFillColor(Theme::TextSub);
         text.setString(players[i]->getClassName());
         text.setPosition({x + 20.f, y + 184.f});
         window.draw(text);
@@ -662,7 +691,7 @@ void Game::drawPlayers() {
         stats << "HP: " << players[i]->getHealth() << "  EN: " << players[i]->getEnergy()
               << "\nPotions: " << players[i]->getPotions();
         text.setCharacterSize(14);
-        text.setFillColor(sf::Color(255, 210, 230));
+        text.setFillColor(Theme::TextLight);
         text.setString(stats.str());
         text.setPosition({x + 20.f, y + 205.f});
         window.draw(text);
@@ -670,47 +699,42 @@ void Game::drawPlayers() {
 }
 
 void Game::drawBoss() {
-    // 1. Shift the main Boss Panel to y = 120.f
     sf::RectangleShape bossPanel({410.f, 300.f});
-    bossPanel.setPosition({720.f, 120.f}); 
-    bossPanel.setFillColor(sf::Color(50, 10, 40));
-    bossPanel.setOutlineColor(sf::Color(200, 50, 120));
+    bossPanel.setPosition({720.f, 120.f});
+    bossPanel.setFillColor(Theme::SubPanelBg);
+    bossPanel.setOutlineColor(Theme::BorderDim);
     bossPanel.setOutlineThickness(3.f);
     window.draw(bossPanel);
 
-    // 2. Shift the Boss Avatar (head) to y = 155.f
     sf::CircleShape head(58.f, 6);
-    head.setPosition({870.f, 155.f}); 
-    head.setFillColor(boss.isAlive() ? sf::Color(200, 50, 120) : sf::Color(80, 60, 80));
+    head.setPosition({870.f, 155.f});
+    head.setFillColor(boss.isAlive() ? sf::Color(145, 16, 20) : Theme::DeadMuted);
     window.draw(head);
 
-    // 3. Shift the HP Bars to y = 300.f
     sf::RectangleShape hpBarBg({300.f, 18.f});
     hpBarBg.setPosition({775.f, 300.f});
-    hpBarBg.setFillColor(sf::Color(80, 30, 60));
+    hpBarBg.setFillColor(Theme::HpBarBg);
     window.draw(hpBarBg);
 
     const float hpRatio = static_cast<float>(boss.getHealth()) / boss.getMaxHealth();
     sf::RectangleShape hpBar({300.f * hpRatio, 18.f});
     hpBar.setPosition({775.f, 300.f});
-    hpBar.setFillColor(sf::Color(220, 50, 100));
+    hpBar.setFillColor(Theme::HpBarFill);
     window.draw(hpBar);
 
-    // 4. Shift the Boss Name to y = 90.f (keeps it 30px above the box)
     sf::Text text(font);
     text.setCharacterSize(26);
-    text.setFillColor(sf::Color(255, 150, 200));
+    text.setFillColor(Theme::TitleRed);
     text.setString(boss.getName());
     text.setPosition({820.f, 90.f});
     window.draw(text);
 
-    // 5. Shift the Stats Info to y = 330.f
     std::ostringstream info;
     info << "HP: " << boss.getHealth() << "/" << boss.getMaxHealth()
          << "\nRage: " << boss.getRage()
          << "\nNext: " << boss.chooseAttackName();
     text.setCharacterSize(18);
-    text.setFillColor(sf::Color(255, 200, 220));
+    text.setFillColor(Theme::TextLight);
     text.setString(info.str());
     text.setPosition({810.f, 330.f});
     window.draw(text);
@@ -726,14 +750,14 @@ void Game::drawButtons() {
 void Game::drawLog() {
     sf::RectangleShape logPanel({1140.f, 180.f});
     logPanel.setPosition({30.f, 420.f});
-    logPanel.setFillColor(sf::Color(45, 10, 35));
-    logPanel.setOutlineColor(sf::Color(255, 105, 180));
+    logPanel.setFillColor(Theme::SubPanelBg);
+    logPanel.setOutlineColor(Theme::BorderRed);
     logPanel.setOutlineThickness(2.f);
     window.draw(logPanel);
 
     sf::Text text(font);
     text.setCharacterSize(18);
-    text.setFillColor(sf::Color(255, 182, 213));
+    text.setFillColor(Theme::TitleRed);
     text.setString("Battle Log");
     text.setPosition({45.f, 430.f});
     window.draw(text);
@@ -741,7 +765,7 @@ void Game::drawLog() {
     text.setCharacterSize(16);
     float y = 455.f;
     for (const auto& line : battleLog) {
-        text.setFillColor(sf::Color(255, 220, 235));
+        text.setFillColor(Theme::TextLight);
         text.setString("* " + line);
         text.setPosition({50.f, y});
         window.draw(text);
@@ -752,7 +776,7 @@ void Game::drawLog() {
 void Game::drawStatusBar() {
     sf::Text text(font);
     text.setCharacterSize(16);
-    text.setFillColor(sf::Color(255, 180, 210));
+    text.setFillColor(Theme::TextSub);
     text.setString("Select your hero!");
     text.setPosition({40.f, 685.f});
     window.draw(text);
