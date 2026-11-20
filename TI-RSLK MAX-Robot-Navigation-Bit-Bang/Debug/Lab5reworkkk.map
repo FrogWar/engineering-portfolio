@@ -1,0 +1,350 @@
+******************************************************************************
+                  TI ARM Linker PC v20.2.7                     
+******************************************************************************
+>> Linked Tue Feb 17 20:14:03 2026
+
+OUTPUT FILE NAME:   <Lab5reworkkk.out>
+ENTRY POINT SYMBOL: "_c_int00_noargs"  address: 000008dd
+
+
+MEMORY CONFIGURATION
+
+         name            origin    length      used     unused   attr    fill
+----------------------  --------  ---------  --------  --------  ----  --------
+  MAIN                  00000000   00040000  000009c4  0003f63c  R  X
+  INFO                  00200000   00004000  00000000  00004000  R  X
+  SRAM_CODE             01000000   00010000  00000304  0000fcfc  RW X
+  SRAM_DATA             20000000   00010000  00000304  0000fcfc  RW  
+
+
+SEGMENT ALLOCATION MAP
+
+run origin  load origin   length   init length attrs members
+----------  ----------- ---------- ----------- ----- -------
+00000000    00000000    000009c4   000009c4    r-x
+  00000000    00000000    000000e4   000000e4    r-- .intvecs
+  000000e4    000000e4    00000898   00000898    r-x .text
+  0000097c    0000097c    00000024   00000024    r-- .const
+  000009a0    000009a0    00000024   00000024    r-- .cinit
+20000000    20000000    00000104   00000000    rw-
+  20000000    20000000    000000e8   00000000    rw- .vtable
+  200000e8    200000e8    0000001c   00000000    rw- .bss
+2000fe00    2000fe00    00000200   00000000    rw-
+  2000fe00    2000fe00    00000200   00000000    rw- .stack
+
+
+SECTION ALLOCATION MAP
+
+ output                                  attributes/
+section   page    origin      length       input sections
+--------  ----  ----------  ----------   ----------------
+.intvecs   0    00000000    000000e4     
+                  00000000    000000e4     startup_msp432p401r_ccs.obj (.intvecs:retain)
+
+.text      0    000000e4    00000898     
+                  000000e4    000001a8     Lab5.obj (.text:main)
+                  0000028c    00000150     Lab5.obj (.text:robotLEDState)
+                  000003dc    00000128     Lab5.obj (.text:motorMotion)
+                  00000504    000000ec     Lab5.obj (.text:configRobotIO)
+                  000005f0    0000009c     Lab5.obj (.text:configPWMTimer)
+                  0000068c    00000080     msp432p4xx_driverlib.lib : interrupt.o (.text:Interrupt_enableInterrupt)
+                  0000070c    00000078     system_msp432p401r.obj (.text:SystemInit)
+                  00000784    00000078     Lab5.obj (.text:bumperSwitchesHandler)
+                  000007fc    0000005c     msp432p4xx_driverlib.lib : interrupt.o (.text:Interrupt_registerInterrupt)
+                  00000858    00000044     rtsv7M4_T_le_v4SPD16_eabi.lib : autoinit.c.obj (.text:__TI_auto_init_nobinit_nopinit:__TI_auto_init_nobinit_nopinit)
+                  0000089c    00000040     Lab5.obj (.text:config432IO)
+                  000008dc    00000034     rtsv7M4_T_le_v4SPD16_eabi.lib : boot_cortex_m.c.obj (.text:_c_int00_noargs:_c_int00_noargs)
+                  00000910    00000024     msp432p4xx_driverlib.lib : gpio.o (.text:GPIO_registerInterrupt)
+                  00000934    0000001c     rtsv7M4_T_le_v4SPD16_eabi.lib : copy_zero_init.c.obj (.text:decompress:ZI:__TI_zero_init_nomemset:__TI_zero_init_nomemset)
+                  00000950    00000016     msp432p4xx_driverlib.lib : timer_a.o (.text:Timer_A_startCounter)
+                  00000966    0000000c     startup_msp432p401r_ccs.obj (.text:Reset_Handler)
+                  00000972    00000004     rtsv7M4_T_le_v4SPD16_eabi.lib : pre_init.c.obj (.text:_system_pre_init)
+                  00000976    00000004                                   : exit.c.obj (.text:abort:abort)
+                  0000097a    00000002     startup_msp432p401r_ccs.obj (.text:Default_Handler)
+
+.const     0    0000097c    00000024     
+                  0000097c    0000001c     msp432p4xx_driverlib.lib : gpio.o (.const:GPIO_PORT_TO_INT)
+                  00000998    00000008                              : interrupt.o (.const:g_pulEnRegs)
+
+.cinit     0    000009a0    00000024     
+                  000009a0    00000008     (.cinit..bss.load) [load image, compression = zero_init]
+                  000009a8    00000008     (.cinit..vtable.load) [load image, compression = zero_init]
+                  000009b0    00000004     (__TI_handler_table)
+                  000009b4    00000010     (__TI_cinit_table)
+
+.init_array 
+*          0    00000000    00000000     UNINITIALIZED
+
+.binit     0    00000000    00000000     
+
+.vtable    0    20000000    000000e8     UNINITIALIZED
+                  20000000    000000e8     msp432p4xx_driverlib.lib : interrupt.o (.vtable)
+
+.bss       0    200000e8    0000001c     UNINITIALIZED
+                  200000e8    00000018     (.common:timerPWMConfig)
+                  20000100    00000001     (.common:b0ButtonState)
+                  20000101    00000001     (.common:bnButtonState)
+                  20000102    00000001     (.common:leftMotorState)
+                  20000103    00000001     (.common:rightMotorState)
+
+.stack     0    2000fe00    00000200     UNINITIALIZED
+                  2000fe00    00000004     rtsv7M4_T_le_v4SPD16_eabi.lib : boot_cortex_m.c.obj (.stack)
+                  2000fe04    000001fc     --HOLE--
+
+__llvm_prf_cnts 
+*          0    20000000    00000000     UNINITIALIZED
+
+MODULE SUMMARY
+
+       Module                        code   ro data   rw data
+       ------                        ----   -------   -------
+    .\
+       Lab5.obj                      1632   0         56     
+       system_msp432p401r.obj        120    0         0      
+    +--+-----------------------------+------+---------+---------+
+       Total:                        1752   0         56     
+                                                             
+    .\ccs\
+       startup_msp432p401r_ccs.obj   14     228       0      
+    +--+-----------------------------+------+---------+---------+
+       Total:                        14     228       0      
+                                                             
+    C:/ti/simplelink_msp432p4_sdk_3_40_01_02/source/ti/devices/msp432p4xx/driverlib/ccs/msp432p4xx_driverlib.lib
+       interrupt.o                   220    8         464    
+       gpio.o                        36     28        0      
+       timer_a.o                     22     0         0      
+    +--+-----------------------------+------+---------+---------+
+       Total:                        278    36        464    
+                                                             
+    C:\ti\ccs1271\ccs\tools\compiler\ti-cgt-arm_20.2.7.LTS\lib\rtsv7M4_T_le_v4SPD16_eabi.lib
+       autoinit.c.obj                68     0         0      
+       boot_cortex_m.c.obj           52     0         0      
+       copy_zero_init.c.obj          28     0         0      
+       exit.c.obj                    4      0         0      
+       pre_init.c.obj                4      0         0      
+    +--+-----------------------------+------+---------+---------+
+       Total:                        156    0         0      
+                                                             
+       Stack:                        0      0         1024   
+       Linker Generated:             0      36        0      
+    +--+-----------------------------+------+---------+---------+
+       Grand Total:                  2200   300       1544   
+
+
+LINKER GENERATED COPY TABLES
+
+__TI_cinit_table @ 000009b4 records: 2, size/record: 8, table size: 16
+	.bss: load addr=000009a0, load size=00000008 bytes, run addr=200000e8, run size=0000001c bytes, compression=zero_init
+	.vtable: load addr=000009a8, load size=00000008 bytes, run addr=20000000, run size=000000e8 bytes, compression=zero_init
+
+
+LINKER GENERATED HANDLER TABLE
+
+__TI_handler_table @ 000009b0 records: 1, size/record: 4, table size: 4
+	index: 0, handler: __TI_zero_init
+
+
+GLOBAL SYMBOLS: SORTED ALPHABETICALLY BY Name 
+
+address   name                          
+-------   ----                          
+0000097b  ADC14_IRQHandler              
+0000097b  AES256_IRQHandler             
+0000097b  BusFault_Handler              
+00000977  C$$EXIT                       
+0000097b  COMP_E0_IRQHandler            
+0000097b  COMP_E1_IRQHandler            
+0000097b  CS_IRQHandler                 
+0000097b  DMA_ERR_IRQHandler            
+0000097b  DMA_INT0_IRQHandler           
+0000097b  DMA_INT1_IRQHandler           
+0000097b  DMA_INT2_IRQHandler           
+0000097b  DMA_INT3_IRQHandler           
+0000097b  DebugMon_Handler              
+0000097b  Default_Handler               
+0000097b  EUSCIA0_IRQHandler            
+0000097b  EUSCIA1_IRQHandler            
+0000097b  EUSCIA2_IRQHandler            
+0000097b  EUSCIA3_IRQHandler            
+0000097b  EUSCIB0_IRQHandler            
+0000097b  EUSCIB1_IRQHandler            
+0000097b  EUSCIB2_IRQHandler            
+0000097b  EUSCIB3_IRQHandler            
+0000097b  FLCTL_IRQHandler              
+0000097b  FPU_IRQHandler                
+00000911  GPIO_registerInterrupt        
+0000097b  HardFault_Handler             
+0000068d  Interrupt_enableInterrupt     
+000007fd  Interrupt_registerInterrupt   
+0000097b  MemManage_Handler             
+0000097b  NMI_Handler                   
+0000097b  PCM_IRQHandler                
+0000097b  PORT1_IRQHandler              
+0000097b  PORT2_IRQHandler              
+0000097b  PORT3_IRQHandler              
+0000097b  PORT4_IRQHandler              
+0000097b  PORT5_IRQHandler              
+0000097b  PORT6_IRQHandler              
+0000097b  PSS_IRQHandler                
+0000097b  PendSV_Handler                
+0000097b  RTC_C_IRQHandler              
+00000967  Reset_Handler                 
+0000097b  SVC_Handler                   
+0000097b  SysTick_Handler               
+0000070d  SystemInit                    
+0000097b  T32_INT1_IRQHandler           
+0000097b  T32_INT2_IRQHandler           
+0000097b  T32_INTC_IRQHandler           
+0000097b  TA0_0_IRQHandler              
+0000097b  TA0_N_IRQHandler              
+0000097b  TA1_0_IRQHandler              
+0000097b  TA1_N_IRQHandler              
+0000097b  TA2_0_IRQHandler              
+0000097b  TA2_N_IRQHandler              
+0000097b  TA3_0_IRQHandler              
+0000097b  TA3_N_IRQHandler              
+00000951  Timer_A_startCounter          
+0000097b  UsageFault_Handler            
+4000480c  WDTCTL_SYM                    
+0000097b  WDT_A_IRQHandler              
+20010000  __STACK_END                   
+00000200  __STACK_SIZE                  
+000009b4  __TI_CINIT_Base               
+000009c4  __TI_CINIT_Limit              
+000009b0  __TI_Handler_Table_Base       
+000009b4  __TI_Handler_Table_Limit      
+00000859  __TI_auto_init_nobinit_nopinit
+ffffffff  __TI_pprof_out_hndl           
+ffffffff  __TI_prof_data_size           
+ffffffff  __TI_prof_data_start          
+00000000  __TI_static_base__            
+00000935  __TI_zero_init_nomemset       
+ffffffff  __binit__                     
+ffffffff  __c_args__                    
+UNDEFED   __mpu_init                    
+2000fe00  __stack                       
+20000000  __start___llvm_prf_cnts       
+20000000  __stop___llvm_prf_cnts        
+000008dd  _c_int00_noargs               
+UNDEFED   _system_post_cinit            
+00000973  _system_pre_init              
+00000977  abort                         
+20000100  b0ButtonState                 
+ffffffff  binit                         
+20000101  bnButtonState                 
+00000785  bumperSwitchesHandler         
+0000089d  config432IO                   
+000005f1  configPWMTimer                
+00000505  configRobotIO                 
+20000000  g_pfnRAMVectors               
+00000000  interruptVectors              
+20000102  leftMotorState                
+000000e5  main                          
+000003dd  motorMotion                   
+20000103  rightMotorState               
+0000028d  robotLEDState                 
+200000e8  timerPWMConfig                
+
+
+GLOBAL SYMBOLS: SORTED BY Symbol Address 
+
+address   name                          
+-------   ----                          
+00000000  __TI_static_base__            
+00000000  interruptVectors              
+000000e5  main                          
+00000200  __STACK_SIZE                  
+0000028d  robotLEDState                 
+000003dd  motorMotion                   
+00000505  configRobotIO                 
+000005f1  configPWMTimer                
+0000068d  Interrupt_enableInterrupt     
+0000070d  SystemInit                    
+00000785  bumperSwitchesHandler         
+000007fd  Interrupt_registerInterrupt   
+00000859  __TI_auto_init_nobinit_nopinit
+0000089d  config432IO                   
+000008dd  _c_int00_noargs               
+00000911  GPIO_registerInterrupt        
+00000935  __TI_zero_init_nomemset       
+00000951  Timer_A_startCounter          
+00000967  Reset_Handler                 
+00000973  _system_pre_init              
+00000977  C$$EXIT                       
+00000977  abort                         
+0000097b  ADC14_IRQHandler              
+0000097b  AES256_IRQHandler             
+0000097b  BusFault_Handler              
+0000097b  COMP_E0_IRQHandler            
+0000097b  COMP_E1_IRQHandler            
+0000097b  CS_IRQHandler                 
+0000097b  DMA_ERR_IRQHandler            
+0000097b  DMA_INT0_IRQHandler           
+0000097b  DMA_INT1_IRQHandler           
+0000097b  DMA_INT2_IRQHandler           
+0000097b  DMA_INT3_IRQHandler           
+0000097b  DebugMon_Handler              
+0000097b  Default_Handler               
+0000097b  EUSCIA0_IRQHandler            
+0000097b  EUSCIA1_IRQHandler            
+0000097b  EUSCIA2_IRQHandler            
+0000097b  EUSCIA3_IRQHandler            
+0000097b  EUSCIB0_IRQHandler            
+0000097b  EUSCIB1_IRQHandler            
+0000097b  EUSCIB2_IRQHandler            
+0000097b  EUSCIB3_IRQHandler            
+0000097b  FLCTL_IRQHandler              
+0000097b  FPU_IRQHandler                
+0000097b  HardFault_Handler             
+0000097b  MemManage_Handler             
+0000097b  NMI_Handler                   
+0000097b  PCM_IRQHandler                
+0000097b  PORT1_IRQHandler              
+0000097b  PORT2_IRQHandler              
+0000097b  PORT3_IRQHandler              
+0000097b  PORT4_IRQHandler              
+0000097b  PORT5_IRQHandler              
+0000097b  PORT6_IRQHandler              
+0000097b  PSS_IRQHandler                
+0000097b  PendSV_Handler                
+0000097b  RTC_C_IRQHandler              
+0000097b  SVC_Handler                   
+0000097b  SysTick_Handler               
+0000097b  T32_INT1_IRQHandler           
+0000097b  T32_INT2_IRQHandler           
+0000097b  T32_INTC_IRQHandler           
+0000097b  TA0_0_IRQHandler              
+0000097b  TA0_N_IRQHandler              
+0000097b  TA1_0_IRQHandler              
+0000097b  TA1_N_IRQHandler              
+0000097b  TA2_0_IRQHandler              
+0000097b  TA2_N_IRQHandler              
+0000097b  TA3_0_IRQHandler              
+0000097b  TA3_N_IRQHandler              
+0000097b  UsageFault_Handler            
+0000097b  WDT_A_IRQHandler              
+000009b0  __TI_Handler_Table_Base       
+000009b4  __TI_CINIT_Base               
+000009b4  __TI_Handler_Table_Limit      
+000009c4  __TI_CINIT_Limit              
+20000000  __start___llvm_prf_cnts       
+20000000  __stop___llvm_prf_cnts        
+20000000  g_pfnRAMVectors               
+200000e8  timerPWMConfig                
+20000100  b0ButtonState                 
+20000101  bnButtonState                 
+20000102  leftMotorState                
+20000103  rightMotorState               
+2000fe00  __stack                       
+20010000  __STACK_END                   
+4000480c  WDTCTL_SYM                    
+ffffffff  __TI_pprof_out_hndl           
+ffffffff  __TI_prof_data_size           
+ffffffff  __TI_prof_data_start          
+ffffffff  __binit__                     
+ffffffff  __c_args__                    
+ffffffff  binit                         
+UNDEFED   __mpu_init                    
+UNDEFED   _system_post_cinit            
+
+[96 symbols]
